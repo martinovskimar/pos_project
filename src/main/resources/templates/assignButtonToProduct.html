@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Head contents -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <title>Assign Button to Product</title>
+</head>
+<body>
+<div class="container mt-4">
+  <h2>Assign Button to Product</h2>
+
+  <!-- Error and Success Messages -->
+  <div th:if="${error}" class="alert alert-danger">
+    <p th:text="${error}"></p>
+  </div>
+  <div th:if="${success}" class="alert alert-success">
+    <p th:text="${success}"></p>
+  </div>
+
+  <!-- Form for assigning a button to a product -->
+  <form th:action="@{/admin/assignButtonToProduct}" method="post">
+    <!-- Hidden field to pass the product ID -->
+    <input type="hidden" name="productId" th:value="${productId}">
+    <div class="form-group">
+      <label for="buttonId">Select Button:</label>
+      <!-- Dropdown for selecting a button ID -->
+      <select class="form-control" id="buttonId" name="buttonId">
+        <!-- Options for button IDs -->
+        <!-- Each option represents a different button with a unique ID -->
+        <option value="button2-1">Draught 1-1</option>
+        <option value="button2-2">Draught 1-2</option>
+        <option value="button2-3">Draught 1-3</option>
+        <option value="button2-4">Draught 1-4</option>
+        <option value="button3-1">Draught 2-1</option>
+        <option value="button3-2">Draught 2-2</option>
+        <option value="button3-3">Draught 2-3</option>
+        <option value="button3-4">Draught 2-4</option>
+        <option value="button4-1">Draught 3-1</option>
+        <option value="button4-2">Draught 3-2</option>
+        <option value="button4-3">Draught 3-3</option>
+        <option value="button4-4">Draught 3-4</option>
+        <option value="button5-1">Draught 4-1</option>
+        <option value="button5-2">Draught 4-2</option>
+        <option value="button5-3">Draught 4-3</option>
+        <option value="button5-4">Draught 4-4</option>
+        <option value="button6-1">Draught 5-1</option>
+        <option value="button6-2">Draught 5-2</option>
+        <option value="button6-3">Draught 5-3</option>
+        <option value="button6-4">Draught 5-4</option>
+        <option value="button7-1">Draught 6-1</option>
+        <option value="button7-2">Draught 6-2</option>
+        <option value="button7-3">Draught 6-3</option>
+        <option value="button7-4">Draught 6-4</option>
+        <option value="button8-1">Draught 7-1</option>
+        <option value="button8-2">Draught 7-2</option>
+        <option value="button8-3">Draught 7-3</option>
+        <option value="button8-4">Draught 7-4</option>
+        <option value="button9-1">Draught 8-1</option>
+        <option value="button9-2">Draught 8-2</option>
+        <option value="button9-3">Draught 8-3</option>
+        <option value="button9-4">Draught 8-4</option>
+        <option value="whiskeyBtn-1-1">Whiskey 1-1</option>
+        <option value="whiskeyBtn-1-2">Whiskey 1-2</option>
+        <option value="whiskeyBtn-1-3">Whiskey 1-3</option>
+        <option value="whiskeyBtn-1-4">Whiskey 1-4</option>
+        <option value="whiskeyBtn-2-1">Whiskey 2-1</option>
+        <option value="whiskeyBtn-2-2">Whiskey 2-2</option>
+        <option value="whiskeyBtn-2-3">Whiskey 2-3</option>
+        <option value="whiskeyBtn-2-4">Whiskey 2-4</option>
+        <option value="whiskeyBtn-3-1">Whiskey 3-1</option>
+        <option value="whiskeyBtn-3-2">Whiskey 3-2</option>
+        <option value="whiskeyBtn-3-3">Whiskey 3-3</option>
+        <option value="whiskeyBtn-3-4">Whiskey 3-4</option>
+        <option value="whiskeyBtn-4-1">Whiskey 4-1</option>
+        <option value="whiskeyBtn-4-2">Whiskey 4-2</option>
+        <option value="whiskeyBtn-4-3">Whiskey 4-3</option>
+        <option value="whiskeyBtn-4-4">Whiskey 4-4</option>
+        <option value="spiritsBtn-1-1">Spirits 1-1</option>
+        <option value="spiritsBtn-1-2">Spirits 1-2</option>
+        <option value="spiritsBtn-1-3">Spirits 1-3</option>
+        <option value="spiritsBtn-1-4">Spirits 1-4</option>
+        <option value="spiritsBtn-2-1">Spirits 2-1</option>
+        <option value="spiritsBtn-2-2">Spirits 2-2</option>
+        <option value="spiritsBtn-2-3">Spirits 2-3</option>
+        <option value="spiritsBtn-2-4">Spirits 2-4</option>
+        <option value="spiritsBtn-3-1">Spirits 3-1</option>
+        <option value="spiritsBtn-3-2">Spirits 3-2</option>
+        <option value="spiritsBtn-3-3">Spirits 3-3</option>
+        <option value="spiritsBtn-3-4">Spirits 3-4</option>
+        <option value="spiritsBtn-4-1">Spirits 4-1</option>
+        <option value="spiritsBtn-4-2">Spirits 4-2</option>
+        <option value="spiritsBtn-4-3">Spirits 4-3</option>
+        <option value="spiritsBtn-4-4">Spirits 4-4</option>
+        <option value="mineralsBtn-1-1">Minerals 1-1</option>
+        <option value="mineralsBtn-1-2">Minerals 1-2</option>
+        <option value="mineralsBtn-1-3">Minerals 1-3</option>
+        <option value="mineralsBtn-1-4">Minerals 1-4</option>
+        <option value="mineralsBtn-2-1">Minerals 2-1</option>
+        <option value="mineralsBtn-2-2">Minerals 2-2</option>
+        <option value="mineralsBtn-2-3">Minerals 2-3</option>
+        <option value="mineralsBtn-2-4">Minerals 2-4</option>
+        <option value="mineralsBtn-3-1">Minerals 3-1</option>
+        <option value="mineralsBtn-3-2">Minerals 3-2</option>
+        <option value="mineralsBtn-3-3">Minerals 3-3</option>
+        <option value="mineralsBtn-3-4">Minerals 3-4</option>
+        <option value="mineralsBtn-4-1">Minerals 4-1</option>
+        <option value="mineralsBtn-4-2">Minerals 4-2</option>
+        <option value="mineralsBtn-4-3">Minerals 4-3</option>
+        <option value="mineralsBtn-4-4">Minerals 4-4</option>
+        <option value="teaCoffeeBtn-1-1">Tea/Coffee 1-1</option>
+        <option value="teaCoffeeBtn-1-2">Tea/Coffee 1-2</option>
+        <option value="teaCoffeeBtn-1-3">Tea/Coffee 1-3</option>
+        <option value="teaCoffeeBtn-1-4">Tea/Coffee 1-4</option>
+        <option value="teaCoffeeBtn-2-1">Tea/Coffee 2-1</option>
+        <option value="teaCoffeeBtn-2-2">Tea/Coffee 2-2</option>
+        <option value="teaCoffeeBtn-2-3">Tea/Coffee 2-3</option>
+        <option value="teaCoffeeBtn-2-4">Tea/Coffee 2-4</option>
+        <option value="teaCoffeeBtn-3-1">Tea/Coffee 3-1</option>
+        <option value="teaCoffeeBtn-3-2">Tea/Coffee 3-2</option>
+        <option value="teaCoffeeBtn-3-3">Tea/Coffee 3-3</option>
+        <option value="teaCoffeeBtn-3-4">Tea/Coffee 3-4</option>
+        <option value="teaCoffeeBtn-4-1">Tea/Coffee 4-1</option>
+        <option value="teaCoffeeBtn-4-2">Tea/Coffee 4-2</option>
+        <option value="teaCoffeeBtn-4-3">Tea/Coffee 4-3</option>
+        <option value="teaCoffeeBtn-4-4">Tea/Coffee 4-4</option>
+        <option value="foodBtn-1-1">Food 1-1</option>
+        <option value="foodBtn-1-2">Food 1-2</option>
+        <option value="foodBtn-1-3">Food 1-3</option>
+        <option value="foodBtn-1-4">Food 1-4</option>
+        <option value="foodBtn-2-1">Food 2-1</option>
+        <option value="foodBtn-2-2">Food 2-2</option>
+        <option value="foodBtn-2-3">Food 2-3</option>
+        <option value="foodBtn-2-4">Food 2-4</option>
+        <option value="foodBtn-3-1">Food 3-1</option>
+        <option value="foodBtn-3-2">Food 3-2</option>
+        <option value="foodBtn-3-3">Food 3-3</option>
+        <option value="foodBtn-3-4">Food 3-4</option>
+        <option value="foodBtn-4-1">Food 4-1</option>
+        <option value="foodBtn-4-2">Food 4-2</option>
+        <option value="foodBtn-4-3">Food 4-3</option>
+        <option value="foodBtn-4-4">Food 4-4</option>
+      </select>
+    </div>
+    <!-- Submit button for the form -->
+    <button type="submit" class="btn btn-primary">Assign</button>
+  </form>
+</div>
+
+<!-- Include jQuery, Popper.js, and Bootstrap JS for interactive elements -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

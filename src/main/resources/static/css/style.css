@@ -1,0 +1,68 @@
+<style>
+    html body {
+        background-color: #d6e9c6;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .navbar {
+        background-color: #285e8e;
+        color: #ffffff;
+    }
+
+    .navbar-dark .navbar-nav .nav-link,
+    .navbar-dark .navbar-brand {
+        color: #ffffff;
+    }
+
+    .btn, .modal-header {
+        background-color: #5bc0de;
+        color: #ffffff;
+    }
+
+    .btn-primary, .btn-info, .btn-success {
+        background-color: #5cb85c;
+    }
+
+    .btn-secondary {
+        background-color: #f0ad4e;
+    }
+
+    .modal-content {
+        background-color: #f7f7f7;
+    }
+
+    .modal-header {
+        background-color: #285e8e;
+        color: #ffffff;
+    }
+
+    .container-fluid {
+        padding-top: 20px;
+    }
+
+    .bill-creation, .button-section {
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #d9edf7;
+    }
+
+    tr:hover {
+        background-color: #eff5f5;
+    }
+</style>

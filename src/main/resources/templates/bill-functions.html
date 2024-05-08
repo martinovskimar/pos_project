@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Functions</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">POS System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/home">Home <span class="sr-only">(current)</span></a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Bill Functions</h2>
+    <div class="row mt-3">
+        <!-- Function Buttons -->
+        <div class="col">
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#splitBillModal">Split the Bill</button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#reprintBillModal">Reprint Bill</button>
+        </div>
+    </div>
+
+    <!-- Calorie Information Section -->
+    <div class="container mt-4">
+        <h2>Calorie Information</h2>
+        <div class="row mt-3">
+            <div class="col">
+                <input type="text" id="foodItemInput" class="form-control" placeholder="Enter Food Item">
+                <button type="button" class="btn btn-primary mt-2" onclick="getCalorieInfo()">Get Calorie Info</button>
+                <div id="calorieInfoResults" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Weather Information Section -->
+<div class="container mt-4">
+    <h2>Current Weather</h2>
+    <div class="row mt-3">
+        <div class="col">
+            <input type="text" id="cityInput" class="form-control" placeholder="Enter City Name">
+            <button type="button" class="btn btn-info mt-2" onclick="getWeatherInfo()">Get Weather Info</button>
+            <div id="weatherInfoResults" class="mt-3"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Reprint Bill Modal -->
+<div class="modal fade" id="reprintBillModal" tabindex="-1" role="dialog" aria-labelledby="reprintBillModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reprintBillModalLabel">Reprint Bill</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="number" id="billIdInput" class="form-control" placeholder="Enter Bill ID">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="reprintBill()">Reprint</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Split Bill Modal -->
+<div class="modal fade" id="splitBillModal" tabindex="-1" role="dialog" aria-labelledby="splitBillModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="splitBillModalLabel">Split Bill</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="number" id="splitBillIdInput" class="form-control" placeholder="Enter Bill ID">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="openSplitBill()">Split</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Function to handle reprinting a bill
+    async function reprintBill() {
+    var billId = document.getElementById('billIdInput').value;
+
+    // Fetch bill details from API
+    const response = await fetch(`/api/bills/${billId}`);
+    if (!response.ok) {
+        alert('Bill not found!');
+        return;
+    }
+    const billDetails = await response.json();
+
+    // Construct the bill details for printing
+    var userName = billDetails.user.username;
+    var currentDate = billDetails.date;
+    var currentTime = billDetails.time;
+    var tableNumber = billDetails.tableNumber;
+    var totalPrice = billDetails.totalPrice.toFixed(2);
+
+    var billContent = '<ul>';
+    billDetails.billProducts.forEach(function(product) {
+        var productName = product.product.productName;
+        var quantity = product.quantity;
+        billContent += '<li>' + productName + ' x' + quantity + '</li>';
+    });
+    billContent += '</ul>';
+
+    // Open a new window for printing
+    var printWindow = window.open('', '', 'height=600,width=800');
+    printWindow.document.write('<html><head><title>Print Bill</title>');
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<h3>Bill Details</h3>');
+    // Print the bill details
+    printWindow.document.write('<p><strong>User:</strong> ' + userName + '</p>');
+    printWindow.document.write('<p><strong>Date:</strong> ' + currentDate + '</p>');
+    printWindow.document.write('<p><strong>Time:</strong> ' + currentTime + '</p>');
+    printWindow.document.write('<p><strong>Table Number:</strong> ' + tableNumber + '</p>');
+    printWindow.document.write('<hr>');
+    printWindow.document.write(billContent);
+    printWindow.document.write('<p><strong>Total Price: $</strong>' + totalPrice + '</p>');
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.focus();
+
+    // Delay for the browser to render the page before printing
+    setTimeout(function() {
+        printWindow.print();
+        printWindow.close();
+    }, 1000);
+
+    // Close the modal after printing
+    $('#reprintBillModal').modal('hide');
+}
+
+    // Function to fetch calorie information from the API
+   async function getCalorieInfo() {
+    var foodItem = document.getElementById('foodItemInput').value;
+
+    try {
+        // Make an API request to fetch calorie data
+        const response = await fetch(`/api/calories?foodItem=${encodeURIComponent(foodItem)}`);
+        if (!response.ok) {
+            throw new Error('Error fetching calorie information!');
+        }
+        const calorieData = await response.json();
+
+         // Display the nutritional information if available
+        if (calorieData.items && calorieData.items.length > 0) {
+            const item = calorieData.items[0];
+            displayNutritionalInfo(item);
+        } else {
+            alert('No data found for the specified item.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message);
+    }
+}
+
+// Function to display the fetched nutritional information on the page
+function displayNutritionalInfo(item) {
+    var resultsDiv = document.getElementById('calorieInfoResults');
+    var content = `<p>Calories for ${item.name}: ${item.calories} kcal</p>`;
+    content += `<p>Serving Size: ${item.serving_size_g} g</p>`;
+    resultsDiv.innerHTML = content;
+}
+
+// Function to fetch and display weather information for a given city
+async function getWeatherInfo() {
+    var city = document.getElementById('cityInput').value;
+    var apiUrl = `/api/weather?city=${encodeURIComponent(city)}&units=metric`;
+
+    try {
+        // Make an API request to fetch weather data
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Error fetching weather information!');
+        }
+        const weatherData = await response.json();
+        displayWeatherInfo(weatherData);
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message);
+    }
+}
+
+// Function to display the fetched weather information on the page
+function displayWeatherInfo(data) {
+     var resultsDiv = document.getElementById('weatherInfoResults');
+     var content = `<p>Weather in ${data.name}: ${data.weather[0].main} (${data.weather[0].description})</p>`;
+     content += `<p>Temperature: ${data.main.temp}°C</p>`;
+     content += `<p>Humidity: ${data.main.humidity}%</p>`;
+     resultsDiv.innerHTML = content;
+        }
+
+</script>
+
+<!-- Import jQuery, Popper.js, and Bootstrap JS for interactivity -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

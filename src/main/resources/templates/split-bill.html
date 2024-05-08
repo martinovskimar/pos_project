@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Bill</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Section - Original Bill Display -->
+        <div class="col-md-6">
+            <div class="original-bill">
+                <h3>Original Bill</h3>
+                <div id="original-bill-details">
+                    <!-- Original bill details will be dynamically loaded here -->
+                </div>
+                <div id="original-bill-items" style="overflow-y: auto; max-height: 400px;">
+                    <!-- Original bill items with checkboxes will be dynamically loaded here -->
+                    <!-- Thymeleaf loop for each item in the bill -->
+                    <div th:each="item : ${originalBillItems}">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" th:id="${'item-' + item.productId}" th:value="${item.productId}">
+                            <label class="form-check-label" th:for="${'item-' + item.productId}" th:text="${item.productName + ' - $' + item.price}"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section - New Split Bill Creation -->
+        <div class="col-md-6">
+            <div class="split-bill-creation">
+                <h3>New Split Bill</h3>
+                <div id="split-bill-creation" style="overflow-y: auto; max-height: 400px;">
+                    <!-- Items added to the new split bill will be displayed here -->
+                    <!-- Dynamically added via JavaScript -->
+                </div>
+                <div class="total-price" style="position: absolute; bottom: 0; background-color: white; padding: 10px; border-top: 1px solid #ccc;">
+                    <strong>Total: $</strong><span id="split-bill-total-price">0.00</span>
+                </div>
+                <button type="button" class="btn btn-success" onclick="sendSplitBill()">Send Split Bill</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Additional JavaScript for handling bill operations -->
+</body>
+</html>

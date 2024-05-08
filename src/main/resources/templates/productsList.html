@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Head contents -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .action-buttons a {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Product List</h2>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Type</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.productName}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.type}"></td>
+            <td class="action-buttons">
+                <!-- Update Button -->
+                <a th:href="@{/admin/updateproduct/{id}(id=${product.productId})}" class="btn btn-primary btn-sm">Update</a>
+                <!-- Remove Button -->
+                <a th:href="@{/admin/deleteproduct/{id}(id=${product.productId})}" class="btn btn-danger btn-sm">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
